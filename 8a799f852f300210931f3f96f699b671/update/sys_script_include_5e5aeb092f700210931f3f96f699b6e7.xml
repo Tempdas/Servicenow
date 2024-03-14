@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1330382_meeting.MeetingApiHandler</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>MeetingApiHandler</name>
+        <script><![CDATA[var MeetingApiHandler = Class.create();
+MeetingApiHandler.prototype = {
+    initialize: function () {
+        // initializing constant
+        this.TABLES = new TableNames();
+    },
+
+    getMeeting: function (id) {
+        // for fetch the meeting record based on the sys_id for meeting
+        var meetingGr = new GlideRecord(this.TABLES.SCHEDULE_MEETING);
+        meetingGr.addQuery("sys_id", "=", id);
+        meetingGr.query();
+        if (meetingGr.next()) {
+            return {
+                id: meetingGr.getValue("sys_id"),
+                title: meetingGr.getValue("title"),
+                agenda: meetingGr.getValue("agenda"),
+                description: meetingGr.getValue("description"),
+                url: meetingGr.getValue("url"),
+                start_datetime: meetingGr.getValue("start_datetime"),
+                end_datetime: meetingGr.getValue("end_datetime"),
+                is_ended: meetingGr.getValue("is_ended"),
+                reminder: meetingGr.getValue("reminder"),
+                recurrence: meetingGr.getValue("recurrence"),
+                assigned_to: meetingGr.getValue("assigned_to")
+            };
+        } else {
+            throw new sn_ws_err.NotFoundError("meeting not found with id=" + id);
+        }
+
+    },
+
+    getAttendeesForMeeting: function (meeting_id) {
+        //fetching attendees for meeting based on meeting_id
+        var attendeeGr = new GlideRecord(this.TABLES.MEETING_ATTENDEE);
+        attendeeGr.addQuery("meeting_id", "=", meeting_id);
+        attendeeGr.query();
+        var result = [];
+        if (!attendeeGr.hasNext()) {
+            throw new sn_ws_err.NotFoundError("There is no such meeting for id=" + meeting_id);
+        }
+        while (attendeeGr.next()) {
+            result.push({
+                id: attendeeGr.getValue("user_id"),
+                name: attendeeGr.user_id.getDisplayValue("name"),
+                user_name: attendeeGr.user_id.getDisplayValue("user_name"),
+            });
+        }
+        return result;
+    },
+
+    createRecord: function (body) {
+        // creating the meeting record
+        var arr_fields = this._getMandatoryFields(this.TABLES.SCHEDULE_MEETING);
+        var weekRepeat = 1; // from body
+        var meetingGr = new GlideRecord(this.TABLES.SCHEDULE_MEETING);
+        //setting mandatory fields to GlideRecord
+		gs.info(JSON.stringify(body));
+
+        var start_date = body.start_date;
+        var end_time = body.end_time;
+        var start_time = body.start_time;
+        var end_date = body.end_date;
+
+        var cgd = new GlideDateTime();
+        cgd.setValue(start_date);
+        cgd.addSeconds(start_time);
+        body.start_datetime = cgd;
+        var egd = new GlideDateTime();
+        egd.setValue(end_time);
+        body.end_datetime = egd;
+
+		gs.info(JSON.stringify(body));
+		
+        var tmp = ["start_date", "start_time", "end_time"];
+        if (body.recurrence.hasRecurrence && body.recurrence.endsAfter == "end-date") {
+            tmp.push("end_date");
+        }
+        for (var kt = 0; kt < tmp.length; kt++) {
+            var k = tmp[kt];
+            if (!body[k] || body[k] == "null" || body[k] == "") {
+                throw new sn_ws_err.BadRequestError(k + " is required");
+            }
+        }
+
+        if (!body.attendees || body.attendees.length == 0) {
+            throw new sn_ws_err.BadRequestError("attendees are required");
+        }
+
+        for (var af = 0; af < arr_fields.length; af++) {
+            var field = arr_fields[af];
+            if (!body[field] || body[field] == "null" || body[field] == "") {
+                throw new sn_ws_err.BadRequestError("" + field + " is required");
+            } else {
+                meetingGr.setValue(field, body[field]);
+            }
+        }
+        meetingGr.setValue("url", body.url);
+
+
+		//handling recurring meeting if required
+        if (body.recurrence.hasRecurrence) {
+			gs.info("recurrence handling start");
+			
+            //inserting recurrence schedule;
+            var rec_id = this._addRecurringSchedule(body.recurrence);
+            //endAfter choiceType
+            if (body.recurrence.endsAfter == "occurrence") {
+                var occurrence = body.recurrence.occurrence;
+                var cDay = 0;
+
+                while (occurrence > 0) {
+                    cDay = cgd.getDayOfWeekUTC();
+                    if (body.recurrence.selectedDays[cDay - 1]) {
+                        var eT = new GlideDateTime(cgd);
+                        eT.addSeconds(end_time);
+                        meetingGr.setValue("start_datetime", cgd);
+                        meetingGr.setValue("end_datetime", eT);
+                        meetingGr.setValue("recurrence", rec_id);
+                        this._addScheduleMeeting(meetingGr, body);
+                        occurrence--;
+                    }
+                    if (cDay == 7) {
+                        cgd.addWeeksUTC(weekRepeat - 1);
+                    }
+                    cgd.addDaysUTC(1);
+                }
+            } else {
+                while (
+                    cgd.getDate().getNumericValue() <= egd.getDate().getNumericValue()
+                ) {
+                    cDay = cgd.getDayOfWeekUTC();
+                    if (body.recurrence.selectedDays[cDay - 1]) {
+                        var tmp = new GlideDateTime(cgd.getValue());
+                        tmp.addSeconds(egd.getTime().getNumericValue() / 1000);
+                        meetingGr.setValue("start_datetime", cgd);
+                        meetingGr.setValue("end_datetime", tmp);
+                        meetingGr.setValue("recurrence", rec_id);
+                        this._addScheduleMeeting(meetingGr, body);
+                    }
+                    if (cDay == 7) {
+                        cgd.addWeeksUTC(weekRepeat - 1);
+                    }
+                    cgd.addDaysUTC(1);
+                }
+            }
+            //inserting meeting repeat days
+            for (var wd = 0; wd < body.recurrence.weekdays.length; wd++) {
+                if (body.recurrence.selectedDays[wd]) {
+                    this._addWeekdaysOfMeetingSchedule(
+                        rec_id,
+                        body.recurrence.weekdays[wd]
+                    );
+                }
+            }
+        } else {
+			egd.addSeconds(end_time);
+            meetingGr.setValue("start_datetime", cgd);
+            meetingGr.setValue("end_datetime", egd);
+            meetingGr.setValue("recurrence", null);
+            this._addScheduleMeeting(meetingGr, body);
+        }
+        return {
+            message: "Meeting created successfully",
+        };
+    },
+
+    _addScheduleMeeting: function (mGr, body) {
+        //adding attendees for this meeting attendees array contain sys_id of users
+        var meeting_id = mGr.insert();
+        for (var i = 0; i < body.attendees.length; i++) {
+            this._addAttendeesForMeeting(body.attendees[i], meeting_id);
+        }
+        this._addRecordToMeetingActive(meeting_id, body.title, body.agenda);
+    },
+
+    _getDateFormat: function (date, time) {
+        // for formatting datetime  
+        return date + " " + time;
+    },
+
+    _addRecordToMeetingActive: function (meeting_id, title, agenda) {
+        //inserting record to meeting active
+        var maGr = new GlideRecord(this.TABLES.MEETING_ACTIVE);
+        maGr.initialize();
+        maGr.setValue("meeting_id", meeting_id);
+        maGr.setValue("title", title);
+        maGr.setValue("agenda", agenda);
+        return maGr.insert();
+    },
+
+    _addRecordToMeetingHistory: function (meeting_id, start_date, end_date, notes) {
+        //inserting record to meeting history
+        var mhGr = new GlideRecord(this.TABLES.MEETING_HISTORY);
+        mhGr.initialize();
+        mhGr.setValue("meeting_id", meeting_id);
+        mhGr.setValue("start_date", start_date);
+        mhGr.setValue("end_date", end_date);
+        mhGr.setValue("notes", notes);
+        return mhGr.insert();
+    },
+
+    _addAttendeesForMeeting: function (userId, meetingId) {
+        // for inserting attendees for meeting  
+        var aGr = new GlideRecord(this.TABLES.MEETING_ATTENDEE);
+        aGr.initialize();
+        aGr.setValue("meeting_id", meetingId);
+        aGr.setValue("user_id", userId);
+        return aGr.insert();
+    },
+
+    _addRecurringSchedule: function (data) {
+        // for inserting recurring schedule for meeting  
+        var rsGr = new GlideRecord(this.TABLES.RECURRING_SCHEDULE);
+        rsGr.initialize();
+        for (var key in data) {
+            rsGr.setValue(key, data[key]);
+        }
+        return rsGr.insert();
+    },
+
+    _addWeekdaysOfMeetingSchedule: function (reference, day) {
+        // for inserting weekdays for meeting  
+        var mrdGr = new GlideRecord(this.TABLES.MEETING_REPEAT_DAY);
+        mrdGr.initialize();
+        mrdGr.setValue("recurring_schedule_id", reference);
+        mrdGr.setValue("day", day);
+        return mrdGr.insert();
+    },
+
+    updateRecord: function (id, body) {
+
+        var meetingGr = new GlideRecord(this.TABLES.SCHEDULE_MEETING);
+        meetingGr.addQuery("sys_id", id);
+        meetingGr.query();
+
+        if (meetingGr.next()) {
+            var arr_fields = this._getMandatoryFields(this.TABLES.SCHEDULE_MEETING);
+            for (let field in body) {
+                gs.info(arr_fields.includes(field));
+                if (arr_fields.includes(field) && (body[field] == "" || body[field] == "null")) {
+                    throw new sn_ws_err.BadRequestError("can not set empty value on mandatory filed " + field);
+                } else {
+                    meetingGr.setValue(field, body[field]);
+                }
+            }
+            meetingGr.update();
+            return {
+                id: id,
+                message: "Meeting updated successfully"
+            };
+        } else {
+            throw new sn_ws_err.NotFoundError("meeting not found with id=" + id);
+        }
+
+    },
+
+    deleteRecord: function (id) {
+        // delete the meeting for specific sys_id 
+        var meetingGr = new GlideRecord(this.TABLES.SCHEDULE_MEETING);
+        meetingGr.addQuery("sys_id", id);
+        meetingGr.query();
+
+        if (meetingGr.next()) {
+            meetingGr.deleteRecord();
+            return {
+                id: id,
+                message: "Meeting deleted successfully"
+            };
+        } else {
+            throw new sn_ws_err.NotFoundError("meeting not found with id=" + id);
+        }
+    },
+
+    _getMandatoryFields: function (tableName) {
+        // for retrieving mandatory field of table
+        var arr_fields = [];
+        var fields = new GlideRecord('sys_dictionary');
+        fields.addQuery('name', tableName);
+        fields.addQuery('mandatory', true);
+        fields.query();
+        while (fields.next()) {
+            arr_fields.push(fields.getValue("element"));
+        }
+        return arr_fields;
+    },
+
+    type: 'MeetingApiHandler'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-03-06 06:54:16</sys_created_on>
+        <sys_id>5e5aeb092f700210931f3f96f699b6e7</sys_id>
+        <sys_mod_count>96</sys_mod_count>
+        <sys_name>MeetingApiHandler</sys_name>
+        <sys_package display_value="Meeting Schedule System" source="x_1330382_meeting">8a799f852f300210931f3f96f699b671</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Meeting Schedule System">8a799f852f300210931f3f96f699b671</sys_scope>
+        <sys_update_name>sys_script_include_5e5aeb092f700210931f3f96f699b6e7</sys_update_name>
+        <sys_updated_by>aarju.boda</sys_updated_by>
+        <sys_updated_on>2024-03-14 12:34:09</sys_updated_on>
+    </sys_script_include>
+</record_update>

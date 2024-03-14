@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="527668ad2ff04210931f3f96f699b676" label="Meeting Repeat Day" max_length="40" name="x_1330382_meeting_meeting_repeat_day" type="collection">
+        <element label="Day" max_length="40" name="day" type="string"/>
+        <element label="Recurring schedule ID" max_length="32" name="recurring_schedule_id" reference="x_1330382_meeting_recurring_schedule" type="reference"/>
+        <index name="index">
+            <element name="recurring_schedule_id"/>
+        </index>
+    </element>
+</database>

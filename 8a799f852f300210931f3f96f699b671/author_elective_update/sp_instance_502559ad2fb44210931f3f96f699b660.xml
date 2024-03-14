@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_instance">
+    <sp_instance action="DELETE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <glyph/>
+        <id/>
+        <order>3</order>
+        <roles/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="1">658b9f8b2f384210931f3f96f699b643</sp_column>
+        <sp_widget display_value="header">8282d12d2fb44210931f3f96f699b6f2</sp_widget>
+        <sys_class_name>sp_instance</sys_class_name>
+        <sys_created_by>sanket.mekwan</sys_created_by>
+        <sys_created_on>2024-03-07 09:17:36</sys_created_on>
+        <sys_id>502559ad2fb44210931f3f96f699b660</sys_id>
+        <sys_mod_count>16</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Meeting Schedule System" source="x_1330382_meeting">8a799f852f300210931f3f96f699b671</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meeting Schedule System">8a799f852f300210931f3f96f699b671</sys_scope>
+        <sys_update_name>sp_instance_502559ad2fb44210931f3f96f699b660</sys_update_name>
+        <sys_updated_by>sanket.mekwan</sys_updated_by>
+        <sys_updated_on>2024-03-12 10:56:03</sys_updated_on>
+        <title/>
+        <url/>
+        <widget_parameters/>
+    </sp_instance>
+    <sys_translated_text action="DELETE" query="documentkey=502559ad2fb44210931f3f96f699b660"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Meeting Schedule System">8a799f852f300210931f3f96f699b671</application>
+        <file_path/>
+        <instance_id>dcf2aec6db75e0182f68c59705961995</instance_id>
+        <instance_name>dev104880</instance_name>
+        <name>sp_instance_502559ad2fb44210931f3f96f699b660</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_instance"><sp_instance action="INSERT_OR_UPDATE"><active>true</active><class_name/><color>default</color><css/><glyph/><id/><order>3</order><roles/><short_description/><size>md</size><sp_column display_value="1">658b9f8b2f384210931f3f96f699b643</sp_column><sp_widget display_value="header">8282d12d2fb44210931f3f96f699b6f2</sp_widget><sys_class_name>sp_instance</sys_class_name><sys_created_by>sanket.mekwan</sys_created_by><sys_created_on>2024-03-07 09:17:36</sys_created_on><sys_id>502559ad2fb44210931f3f96f699b660</sys_id><sys_mod_count>16</sys_mod_count><sys_name/><sys_package display_value="Meeting Schedule System" source="x_1330382_meeting">8a799f852f300210931f3f96f699b671</sys_package><sys_policy/><sys_scope display_value="Meeting Schedule System">8a799f852f300210931f3f96f699b671</sys_scope><sys_update_name>sp_instance_502559ad2fb44210931f3f96f699b660</sys_update_name><sys_updated_by>sanket.mekwan</sys_updated_by><sys_updated_on>2024-03-12 10:56:03</sys_updated_on><title/><url/><widget_parameters/></sp_instance><sys_translated_text action="delete_multiple" query="documentkey=502559ad2fb44210931f3f96f699b660"/></record_update>]]></payload>
+        <payload_hash>-1411876268</payload_hash>
+        <record_name/>
+        <reverted_from/>
+        <source>3e1972ff2ff00610931f3f96f699b678</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>sanket.mekwan</sys_created_by>
+        <sys_created_on>2024-03-12 10:56:03</sys_created_on>
+        <sys_id>839b13cb2f384210931f3f96f699b6ab</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_recorded_at>18e324e1a3d0000001</sys_recorded_at>
+        <sys_updated_by>aarju.boda</sys_updated_by>
+        <sys_updated_on>2024-03-14 16:20:48</sys_updated_on>
+        <type>Instance</type>
+        <update_guid>8b9b13cbfb384210f02fabc215d09faa</update_guid>
+        <update_guid_history>8b9b13cbfb384210f02fabc215d09faa:-1411876268,839b13cbe5384210f74b80e99f73bea7:-334775115,8b9b13cbd4384210d70a4c21892816a3:742326038,fe9b13cb79384210060bcaadb98e5b8a:-1411876268,ba9b1b8b37384210480272c4311a3fff:-334775115,b29b1b8b87384210355ec361ffd8c6fc:742326038,0a9b13cbd938421009a84b53006c304a:-1411876268,ce9b9b8b433842105de4eada25ff257e:-334775115,c69b9b8b2e3842104aa5c929462b767b:742326038,fd9b13cb8638421032e8c50cca5af200:-334775115,7d9bd78b813842103152101e3b462eec:742326038,f09b9f8be63842102d187764c038b364:-334775115,f89b9f8bda384210b72ae4ece6d0a060:742326038,209b5f8bde384210a0f3f1776cc2060f:-334775115,c09b1f4ba7384210a61d12d0b99ecafa:742326038,eb6b1f8b1938421015b5e6c2bd4a53a7:1791691714,242559add9b442108b5adc8062e64362:1227689035</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="">dcab53cb2f384210931f3f96f699b62c</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>sanket.mekwan</sys_created_by>
+        <sys_created_on>2024-03-12 10:56:07</sys_created_on>
+        <sys_db_object display_value="" name="sp_instance">sp_instance</sys_db_object>
+        <sys_id>0beb851a8cfd434781a04a34302bfe31</sys_id>
+        <sys_metadata>502559ad2fb44210931f3f96f699b660</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Meeting Schedule System" source="x_1330382_meeting">8a799f852f300210931f3f96f699b671</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Meeting Schedule System">8a799f852f300210931f3f96f699b671</sys_scope>
+        <sys_scope_delete display_value="">09be51e9feac41fcb0248a2770931d10</sys_scope_delete>
+        <sys_update_name>sp_instance_502559ad2fb44210931f3f96f699b660</sys_update_name>
+        <sys_update_version display_value="sp_instance_502559ad2fb44210931f3f96f699b660">839b13cb2f384210931f3f96f699b6ab</sys_update_version>
+        <sys_updated_by>sanket.mekwan</sys_updated_by>
+        <sys_updated_on>2024-03-12 10:56:07</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

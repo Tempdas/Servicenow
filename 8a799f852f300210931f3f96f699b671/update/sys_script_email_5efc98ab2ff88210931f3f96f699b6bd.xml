@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_email">
+    <sys_script_email action="INSERT_OR_UPDATE">
+        <name>set_attendee_for_metting_schedule_insert</name>
+        <new_lines_to_html>false</new_lines_to_html>
+        <script><![CDATA[(function runMailScript(/* GlideRecord */ current, /* TemplatePrinter */ template,
+          /* Optional EmailOutbound */ email, /* Optional GlideRecord */ email_action,
+          /* Optional GlideRecord */ event) {
+		// gs.info("email script set_attendee_for_metting_schedule_insert start");
+		// gs.info("current : "+current.getValue("parent_id"));
+		var attendeeGr = new GlideRecord(new TableNames().MEETING_ATTENDEE);
+		attendeeGr.addQuery("meeting_id", current.getValue("parent_id"));
+        attendeeGr.query();
+		gs.info("atendees found : "+attendeeGr.getRowCount());
+		while(attendeeGr.next()){
+			// gs.info("adding cc : "+attendeeGr.user_id.email+" : " + attendeeGr.user_id.name);
+			email.addAddress("cc",attendeeGr.user_id.email.toString(),attendeeGr.user_id.name.toString());
+		}
+
+})(current, template, email, email_action, event);]]></script>
+        <sys_class_name>sys_script_email</sys_class_name>
+        <sys_created_by>aarju.boda</sys_created_by>
+        <sys_created_on>2024-03-13 10:33:00</sys_created_on>
+        <sys_id>5efc98ab2ff88210931f3f96f699b6bd</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>set_attendee_for_metting_schedule_insert</sys_name>
+        <sys_package display_value="Meeting Schedule System" source="x_1330382_meeting">8a799f852f300210931f3f96f699b671</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meeting Schedule System">8a799f852f300210931f3f96f699b671</sys_scope>
+        <sys_update_name>sys_script_email_5efc98ab2ff88210931f3f96f699b6bd</sys_update_name>
+        <sys_updated_by>aarju.boda</sys_updated_by>
+        <sys_updated_on>2024-03-14 12:34:56</sys_updated_on>
+    </sys_script_email>
+</record_update>

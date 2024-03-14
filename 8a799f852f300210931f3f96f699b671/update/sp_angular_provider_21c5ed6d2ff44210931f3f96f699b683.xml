@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_angular_provider">
+    <sp_angular_provider action="INSERT_OR_UPDATE">
+        <name>MeetingUserProvider</name>
+        <script><![CDATA[function MeetingUserProvider($http) {
+
+    var baseUrl = "/api/now/table/sys_user?sysparm_query=nameSTARTSWITH";
+    return {
+        getUserList: getUserList,
+    };
+
+    function getUserList(searchString) {
+        var url = baseUrl + searchString + "&sysparm_fields=sys_id%2Cname%2Cuser_name";
+        return _httpService(url, "get", null);
+    }
+
+       function _httpService(url, method, payLoad) {
+        return $http({
+            method: method,
+            url: url,
+            data: payLoad
+        });
+    }
+
+}]]></script>
+        <sys_class_name>sp_angular_provider</sys_class_name>
+        <sys_created_by>sanket.mekwan</sys_created_by>
+        <sys_created_on>2024-03-07 10:31:13</sys_created_on>
+        <sys_id>21c5ed6d2ff44210931f3f96f699b683</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>MeetingUserProvider</sys_name>
+        <sys_package display_value="Meeting Schedule System" source="x_1330382_meeting">8a799f852f300210931f3f96f699b671</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meeting Schedule System">8a799f852f300210931f3f96f699b671</sys_scope>
+        <sys_update_name>sp_angular_provider_21c5ed6d2ff44210931f3f96f699b683</sys_update_name>
+        <sys_updated_by>sanket.mekwan</sys_updated_by>
+        <sys_updated_on>2024-03-14 07:01:58</sys_updated_on>
+        <type>service</type>
+    </sp_angular_provider>
+</record_update>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="INSERT_OR_UPDATE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-03-06 06:38:11</sys_created_on>
+        <sys_id>2f0723452f700210931f3f96f699b646</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_1330382_meeting_scheduled_meeting.x_1330382_meeting.scheduled_meeting_user</sys_name>
+        <sys_package display_value="Meeting Schedule System" source="x_1330382_meeting">8a799f852f300210931f3f96f699b671</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meeting Schedule System">8a799f852f300210931f3f96f699b671</sys_scope>
+        <sys_security_acl display_value="x_1330382_meeting_scheduled_meeting">af0723452f700210931f3f96f699b643</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_2f0723452f700210931f3f96f699b646</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-03-06 06:38:11</sys_updated_on>
+        <sys_user_role display_value="x_1330382_meeting.scheduled_meeting_user" name="x_1330382_meeting.scheduled_meeting_user">ba07a7812f700210931f3f96f699b6bf</sys_user_role>
+        <transaction_id/>
+    </sys_security_acl_role>
+</record_update>

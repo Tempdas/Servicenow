@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1330382_meeting.ApiErrors</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>ApiErrors</name>
+        <script><![CDATA[var ApiErrors = Class.create();
+ApiErrors.prototype = {
+    initialize: function() {},
+
+    NotFoundError: function(message) {
+        let err = new Error(message);
+        err.name = "not_found_error";
+        return err;
+    },
+    ValidationError: function(message) {
+        let err = new Error(message);
+        err.name = "validation_error";
+        return err;
+    },
+
+    type: 'ApiErrors'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>aarju.boda</sys_created_by>
+        <sys_created_on>2024-03-07 09:40:42</sys_created_on>
+        <sys_id>2ba9d5e12ff44210931f3f96f699b64a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>ApiErrors</sys_name>
+        <sys_package display_value="Meeting Schedule System" source="x_1330382_meeting">8a799f852f300210931f3f96f699b671</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Meeting Schedule System">8a799f852f300210931f3f96f699b671</sys_scope>
+        <sys_update_name>sys_script_include_2ba9d5e12ff44210931f3f96f699b64a</sys_update_name>
+        <sys_updated_by>aarju.boda</sys_updated_by>
+        <sys_updated_on>2024-03-07 09:40:42</sys_updated_on>
+    </sys_script_include>
+</record_update>

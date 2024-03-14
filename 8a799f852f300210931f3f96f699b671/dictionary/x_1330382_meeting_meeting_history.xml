@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="f1c763c12f700210931f3f96f699b676" label="Meeting  history" max_length="40" name="x_1330382_meeting_meeting_history" type="collection">
+        <element label="End date" max_length="40" name="end_date" type="glide_date_time"/>
+        <element label="Meeting id" max_length="32" name="meeting_id" reference="x_1330382_meeting_scheduled_meeting" type="reference"/>
+        <element label="Notes" max_length="40" name="notes" type="string"/>
+        <element label="Start date" max_length="40" name="start_date" type="glide_date_time"/>
+        <index name="index">
+            <element name="meeting_id"/>
+        </index>
+    </element>
+</database>

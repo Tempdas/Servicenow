@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="f444e7412f700210931f3f96f699b62e" label="scheduled_meeting" max_length="40" name="x_1330382_meeting_scheduled_meeting" type="collection">
+        <element label="Agenda" mandatory="true" max_length="40" name="agenda" type="string"/>
+        <element label="Assigned To" mandatory="true" max_length="32" name="assigned_to" reference="sys_user" type="reference"/>
+        <element label="Description" mandatory="true" max_length="40" name="description" type="string"/>
+        <element label="End DateTime" mandatory="true" max_length="40" name="end_datetime" type="glide_date_time"/>
+        <element label="Is ended" max_length="40" name="is_ended" type="boolean"/>
+        <element label="Recurrence" max_length="32" name="recurrence" reference="x_1330382_meeting_recurring_schedule" type="reference"/>
+        <element label="Start DateTime" mandatory="true" max_length="40" name="start_datetime" type="glide_date_time"/>
+        <element label="Title" mandatory="true" max_length="40" name="title" type="string"/>
+        <element label="Url" max_length="1024" name="url" type="url"/>
+        <index name="index">
+            <element name="assigned_to"/>
+        </index>
+        <index name="index2">
+            <element name="recurrence"/>
+        </index>
+    </element>
+</database>

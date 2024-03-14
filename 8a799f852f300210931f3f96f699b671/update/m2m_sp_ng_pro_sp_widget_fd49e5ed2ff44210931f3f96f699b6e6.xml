@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="m2m_sp_ng_pro_sp_widget">
+    <m2m_sp_ng_pro_sp_widget action="INSERT_OR_UPDATE">
+        <sp_angular_provider display_value="MeetingApiProvider">4e03e1ad2ff44210931f3f96f699b6a4</sp_angular_provider>
+        <sp_widget display_value="create_meeting_form">85aa64e12f344210931f3f96f699b678</sp_widget>
+        <sys_class_name>m2m_sp_ng_pro_sp_widget</sys_class_name>
+        <sys_created_by>sanket.mekwan</sys_created_by>
+        <sys_created_on>2024-03-07 10:45:37</sys_created_on>
+        <sys_id>fd49e5ed2ff44210931f3f96f699b6e6</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>MeetingApiProvider.create_meeting_form</sys_name>
+        <sys_package display_value="Meeting Schedule System" source="x_1330382_meeting">8a799f852f300210931f3f96f699b671</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meeting Schedule System">8a799f852f300210931f3f96f699b671</sys_scope>
+        <sys_update_name>m2m_sp_ng_pro_sp_widget_fd49e5ed2ff44210931f3f96f699b6e6</sys_update_name>
+        <sys_updated_by>sanket.mekwan</sys_updated_by>
+        <sys_updated_on>2024-03-07 10:45:37</sys_updated_on>
+    </m2m_sp_ng_pro_sp_widget>
+</record_update>

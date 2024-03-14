@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller = function ($scope, MeetingUserProvider, MeetingApiProvider) {
+    /* widget controller */
+    var c = this;
+
+    var initRecurrence = {
+        hasRecurrence: false,
+        weekdays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        selectedDays: [false, false, false, false, false, false, false],
+        endsAfter: "occurrence",
+        occurrence: 0,
+        endDate: "",
+        repeat_no: 0,
+        repeat_type: "Weekly"
+    }
+
+    c.meetingDetails = {
+        title: "",
+        agenda: "",
+        description: "",
+        url: "",
+        recurrence: JSON.parse(JSON.stringify(initRecurrence)),
+        start_date: "",
+        end_date: "",
+        start_time: "",
+        end_time: "",
+        assigned_to: "",
+        attendees: [],
+        reminder: [],
+        is_ended: "false"
+    };
+
+    c.errors = {
+        title: '',
+        agenda: '',
+        description: "",
+        url: '',
+        start_date: '',
+        start_time: '',
+        end_time: '',
+        assign_to: '',
+    }
+
+    c.isRecurrenceVisible = false;
+    c.searchingFor = "";
+    c.setSearchingFor = function (element) {
+        c.userSuggestionList = [];
+        c.searchingFor = element;
+    }
+
+
+    c.validateTitle = function () {
+        if (!c.meetingDetails.title) {
+            c.errors.title = "required!!";
+        } else if (c.meetingDetails.title.length < 3) {
+            c.errors.title = 'to short title!!'
+        } else {
+            c.errors.title = ''
+        }
+    }
+
+    c.validateDescription = function () {
+        if (!c.meetingDetails.description) {
+            c.errors.description = "required!!";
+        } else if (c.meetingDetails.description.length < 3) {
+            c.errors.description = 'to short title!!'
+        } else {
+            c.errors.description = ''
+        }
+        console.log("hello", c.errors)
+
+    }
+
+    c.validateStartDate = function () {
+        var start_date = new Date(c.meetingDetails.start_date);
+        var curr_date = new Date(new Date().toDateString());
+
+        // undefined when date is invalid
+        if (!c.meetingDetails.start_date && c.meetingDetails.start_date !== undefined) {
+            c.errors.start_date = "required!!";
+        } else if (start_date == "Invalid Date") {
+            c.errors.start_date = "Invalid date!!"
+        } else if (start_date < curr_date) {
+            c.errors.start_date = "Past dates are not allowed!! "
+        } else {
+            c.errors.start_date = ""
+        }
+
+        c.validateStartTime();
+    }
+
+    c.validateStartTime = function () {
+        var start_date = new Date(c.meetingDetails.start_date);
+        var curr_date = new Date(new Date().toDateString());
+        var start_time = new Date(c.meetingDetails.start_time);
+        var curr_time = new Date();
+
+        // undefined when time is invalid
+        if (!c.meetingDetails.start_time && c.meetingDetails.start_time !== undefined) {
+            c.errors.start_time = "required !!"
+        } else if (start_time == 'Invalid Date') {
+            c.errors.start_time = "Invalid Time !!"
+        } else if (start_date.toString() == curr_date.toString()) {
+
+            var curr_hour = curr_time.getHours();
+            var curr_minute = curr_time.getMinutes();
+            var start_hour = start_time.getHours();
+            var start_minute = start_time.getMinutes();
+
+            console.log(curr_hour, curr_minute, start_hour, start_minute)
+            console.log("same same")
+
+            if (start_hour < curr_hour) {
+                c.errors.start_time = "past time is not allowed";
+            } else if (start_hour == curr_hour && start_minute < curr_minute) {
+                c.errors.start_time = "past time is not allowed";
+            } else {
+                c.errors.start_time = ''
+            }
+        } else {
+            c.errors.start_time = ''
+        }
+
+        c.validateEndTime();
+
+        //console.log({err:c.errors.start_time,st : c.meetingDetails.start_time,date:start_time})
+    }
+
+    c.validateEndTime = function () {
+        var end_time = new Date(c.meetingDetails.end_time);
+        var start_time = new Date(c.meetingDetails.start_time);
+
+        //console.log(end_time,start_time)
+        // undefined when time is invalid
+        if (!c.meetingDetails.end_time && c.meetingDetails.end_time !== undefined) {
+            c.errors.end_time = "required !!"
+        } else if (end_time == 'Invalid Date') {
+            c.errors.end_time = "Invalid Time !!"
+        } else if (start_time != "Invalid Date" && end_time <= start_time) {
+            c.errors.end_time = 'end time should be greater than start time'
+        } else {
+            c.errors.end_time = ''
+        }
+    }
+
+    c.validateAssignTo = function () {
+        if (!c.meetingDetails.assigned_to) {
+            c.errors.assign_to = 'required !!'
+        } else {
+            c.errors.assign_to = '';
+        }
+    }
+
+    c.setEndAfter = function (choice) {
+        c.meetingDetails.recurrence.endsAfter = choice;
+    };
+
+    c.cancleRecurrence = function () {
+        c.meetingDetails.recurrence = JSON.parse(JSON.stringify(initRecurrence));
+        c.toggleRecurrenceVisible();
+    }
+
+    c.handleAddRecurrence = function () {
+        c.toggleRecurrenceVisible();
+        if (c.meetingDetails.recurrence.hasRecurrence == false) {
+            c.meetingDetails.recurrence.hasRecurrence = true
+        }
+    }
+
+    c.toggleSelectedDay = function (idx) {
+        c.meetingDetails.recurrence.selectedDays[idx] = !c.meetingDetails.recurrence.selectedDays[idx]
+    }
+
+
+    c.toggleRecurrenceVisible = function () {
+        c.isRecurrenceVisible = !c.isRecurrenceVisible;
+    }
+
+    c.validateBody = function () {
+        c.validateTitle();
+        c.validateStartDate();
+        c.validateDescription();
+        c.validateStartTime();
+        c.validateEndTime();
+        c.validateAssignTo();
+
+        for (var key in c.errors) {
+            if (c.errors[key].length > 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    c.handleSubmit = function () {
+        var isValid = c.validateBody();
+
+        if (isValid == false) {
+            return;
+        }
+        var body = JSON.parse(JSON.stringify(c.meetingDetails));
+        console.log(body)
+
+
+        var startDate = new Date(body.start_date);
+        var endDate = new Date(body.end_date);
+        var startTime = new Date(body.start_time);
+        var endTime = new Date(body.end_time);
+
+        body.start_date = startDate.getTime();
+        body.end_date = endDate.getTime();
+        body.start_time = startTime.getTime();
+        body.end_time = endTime.getTime();
+
+        body.assigned_to = body.assigned_to.sys_id;
+        body.attendees = body.attendees.map(function (attendee) {
+            return attendee.sys_id;
+        });
+
+
+
+        MeetingApiProvider.createMeeting(body).then(function (responce) {
+            console.log(responce);
+            alert(responce);
+
+        }).catch(function (error) {
+            console.log(error);
+            if (error.status == 400) {
+                alert(error.data.error.message);
+            }
+        });
+    }
+
+    c.handleUserSearch = function (flag) {
+        var searchString = c.userSearchString;
+        if (flag == 1) {
+            searchString = c.assigned_to_label;
+            c.meetingDetails.assigned_to = "";
+        }
+
+        if (searchString == "") {
+            c.userSuggestionList = [];
+            return;
+        }
+
+        //fetching user's details form table api
+        MeetingUserProvider.getUserList(searchString).then(function (response) {
+            var users = response.data.result;
+            console.log(users);
+            if (users) {
+                c.userSuggestionList = users;
+            }
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    c.handleAddAttendee = function (user) {
+        console.log(user);
+        if (c.meetingDetails.attendees.findIndex(function (u) {
+            return u.user_name == user.user_name
+        }) == -1) {
+            c.meetingDetails.attendees.push(user);
+        } else {
+            console.log("duplicate , aborting");
+        }
+
+        c.searchingFor = "";
+        c.userSearchString = "";
+        c.userSuggestionList = [];
+    }
+
+    c.handleAssignee = function (user) {
+        c.errors.assign_to = ''
+        c.meetingDetails.assigned_to = user;
+        c.assigned_to_label = user.name;
+        c.searchingFor = "";
+        c.userSuggestionList = [];
+    }
+
+    c.handleRemoveAttendee = function (user) {
+        console.log(user);
+        c.meetingDetails.attendees = c.meetingDetails.attendees.filter(function (u) {
+            if (u != user) {
+                return u;
+            }
+        })
+    }
+};
+
+
+]]></client_script>
+        <controller_as>c</controller_as>
+        <css>*{
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+.container {
+    max-width: 1000px;
+  padding-bottom:200px;
+}
+
+form {
+    background: white;
+    padding: 30px;
+    border-radius: 3px;
+  box-shadow: 0px 0px 1px #89a5d1;
+}
+
+
+.user-list-item {
+    padding: 5px;
+    border: 1px solid grey;
+    border-radius: 5px;
+  white-space:nowrap;
+  background: #f3f7fb;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+}
+
+.user-search {
+    position: relative;
+}
+
+.user-list {
+  display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+    align-items: center;
+    padding : 0.3rem 0.4rem;
+    outline: 0.1rem solid grey;
+    border-radius: 3px;
+}
+    
+.user-list input{
+ 	max-width:250px; 
+  background:transparent;
+}
+.user-list-item span {
+    cursor: pointer;
+}
+
+.user-search-result {
+    background: white;
+    position: absolute;
+    width: 100%;
+    z-index:10;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.input-with-list input{
+  
+}
+.user-search-result-item {
+    border: 1px solid grey;
+    border-radius: 2px;
+    padding-left: 10px;
+    width: 100%;
+}
+
+.user-search-result-item:hover {
+    background-color: gray;
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+.days{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+.flex{
+  display:flex;
+  align-items:center;
+}
+
+.flex-5{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.recurring-schedule{
+ 	background-color:white; 
+  padding:20px;
+  border-radius:5px;
+  margin-bottom:10px;
+  box-shadow : 0px 0px 1px #4f61a6;
+}
+
+.ends-after{
+  margin:20px 0px;
+}
+
+input,select{
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background: #f3f7fb;
+}
+
+select:focus,input[type='text']:focus,input[type='time']:focus,input[type='date']:focus{
+ box-shadow:0px 0px 10px #d0dbed;
+ border:1px solid #5a72b6;
+ background:white;
+}
+
+
+.add-recurrence{
+  background:#455188;
+  color:white;
+}
+
+.add-meeting{
+  background:#455188;
+}
+
+.cancle-recurrece{
+  border: 2px solid #5a72b6;
+    font-weight: 400;
+    color: #5a72b6;
+}
+
+.active-btn{
+    color: #ffffff;
+    background: #6d89c4;
+}
+
+.err{
+ color:#f25353; 
+}
+
+.p-0{
+  padding:0px;
+}
+
+.repeat-no{
+  width:70px;
+}
+
+.repeat-type{
+  width:fit-content;
+}
+
+</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>true</has_preview>
+        <id>create_meeting_form</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>create_meeting_form</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+	// gs.info("running")
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-03-07 06:25:14</sys_created_on>
+        <sys_id>85aa64e12f344210931f3f96f699b678</sys_id>
+        <sys_mod_count>474</sys_mod_count>
+        <sys_name>create_meeting_form</sys_name>
+        <sys_package display_value="Meeting Schedule System" source="x_1330382_meeting">8a799f852f300210931f3f96f699b671</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meeting Schedule System">8a799f852f300210931f3f96f699b671</sys_scope>
+        <sys_update_name>sp_widget_85aa64e12f344210931f3f96f699b678</sys_update_name>
+        <sys_updated_by>sanket.mekwan</sys_updated_by>
+        <sys_updated_on>2024-03-14 13:25:39</sys_updated_on>
+        <template><![CDATA[<div>
+  <div class="container">
+    <form>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="meetingName">Meeting Title : </label>
+          <input ng-change="c.validateTitle()"   type="text" class="form-control" id="meetingName" ng-model="c.meetingDetails.title"
+                 placeholder="Enter meeting title" />
+          <span ng-if="c.errors.title" class='err'>{{c.errors.title}}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label for="description">Description </label>
+          <input ng-change="c.validateDescription()" type="text" class="form-control" id="description" ng-model="c.meetingDetails.description"
+                 placeholder="Enter description here" />
+          <span ng-if="c.errors.description" class='err'>{{c.errors.description}}</span>
+        </div>
+      </div> 
+
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="meetingDate">Meeting date</label>
+          <input name="start_date" ng-change="c.validateStartDate()" type="date" class="form-control" id="meetingDate"  ng-model="c.meetingDetails.start_date" />
+          <span ng-if="c.errors.start_date" class='err'>{{c.errors.start_date}}</span>
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="start_time">Start Time</label>
+          <input name="start_time" ng-change="c.validateStartTime()" type="time" class="form-control" id="start_time" ng-model="c.meetingDetails.start_time" />
+          <span ng-if="c.errors.start_time" class='err'>{{c.errors.start_time}}</span>
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="end_time">End Time</label>
+          <input name="end_time" type="time" ng-change="c.validateEndTime()" class="form-control" id="end_time" ng-model="c.meetingDetails.end_time" />
+          <span ng-if="c.errors.end_time" class='err'>{{c.errors.end_time}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <input type="button" class="add-recurrence btn" ng-click="c.handleAddRecurrence()" value="Add recurring schedule"/>
+
+
+        </div>
+      </div>
+      <div  ng-if="c.isRecurrenceVisible" class="recurring-schedule">
+
+        <div class='row form-group'>
+          <div class="col-md-12 form-group">
+            <label >Repeats every</label>
+            <div class='flex-5'>
+
+              <input class="form-control repeat-no" type='number' name='repeat-no' ng-model='c.meetingDetails.recurrence.repeat_no'/>
+              <select class="form-control repeat-type" ng-model="c.meetingDetails.recurrence.repeat_type">
+                <option value="Weekely">Weekly</option>
+                <option value="Monthly">Monthly</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+
+        <div class='row form-group'>
+          <div class="col-md-12">
+            <label >On </label>
+
+            <div class='days'>
+              <input type='button' ng-repeat="day in c.meetingDetails.recurrence.weekdays" ng-click="c.toggleSelectedDay($index)"
+                     ng-class="c.meetingDetails.recurrence.selectedDays[$index] ? 'btn active-btn':'btn'"
+                     value={{day}}>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row ends-after form-group">
+          <div class="choice flex-5 form-group">   
+            <label >Ends after </label>
+            <input type='button' ng-class="c.meetingDetails.recurrence.endsAfter=='occurrence' ? 'btn active-btn':'btn'"  ng-click="c.setEndAfter('occurrence')" value="occurrence"/>
+
+            <input type='button' ng-class="c.meetingDetails.recurrence.endsAfter=='end-date' ? 'btn active-btn':'btn'"  ng-click="c.setEndAfter('end-date')" value="End date"/>
+
+
+          </div>
+
+          <div ng-if="c.meetingDetails.recurrence.endsAfter=='occurrence'" class='occurrence-option form-group col-md-3 p-0'>
+            <input id="occurrence" class="form-control" type='number'  ng-model="c.meetingDetails.recurrence.occurrence"/>
+          </div>
+
+          <div ng-if="c.meetingDetails.recurrence.endsAfter=='end-date'"  class='end-date-option form-group col-md-3 p-0'>
+            <input id="recurrening-end-date" class="form-control" type='date' ng-model="c.meetingDetails.recurrence.endDate"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <input type='button' class="btn cancle-recurrece" ng-click="c.cancleRecurrence()" value="Cancel recurring schedule"/>
+
+          </div>
+        </div>
+
+      </div>               
+
+
+      <div class="row">
+
+        <div class="form-group col-md-12">
+          <label for="attendees">Attendee</label>
+          <div class="user-search">
+
+            <div class="user-list">
+              <div ng-repeat="attendee in c.meetingDetails.attendees" class="user-list-item">
+                {{attendee.name}}
+                <span ng-click="c.handleRemoveAttendee(attendee)">❌</span>
+              </div>
+
+              <input ng-focus="c.setSearchingFor('attendees')" type="text" ng-keyup="c.handleUserSearch(0)" ng-model="c.userSearchString"
+                     class="form-control" id="attendees" />
+            </div>
+
+            <div ng-if="c.searchingFor=='attendees'" class="user-search-result list-group">
+              <button type="button" class="list-group-item" ng-click="c.handleAddAttendee(user)" ng-repeat="user in c.userSuggestionList"
+                      class="user-search-result-item btn ">
+                <div>{{user.name}}</div>
+              </button>
+            </div>   
+          </div>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="assignTo">Assign To</label>
+          <div  class="user-search">
+            <div class="">
+              <input ng-focus="c.setSearchingFor('assign-to')" type="text" ng-keyup="c.handleUserSearch(1)" ng-model="c.assigned_to_label"
+                     class="form-control" id="assignTo" />
+            </div>
+            <div ng-if="c.searchingFor=='assign-to'" class="user-search-result list-group">
+
+              <button type="button" class="list-group-item" ng-click="c.handleAssignee(user)" ng-repeat="user in c.userSuggestionList"
+                      class="user-search-result-item btn ">
+                <div>{{user.name}}</div>
+              </button>
+            </div>
+          </div>
+          <span ng-if="c.errors.assign_to" class='err'>{{c.errors.assign_to}}</span>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label for="url">URL </label>
+          <input type="text" class="form-control" id="url" ng-model="c.meetingDetails.url"
+                 placeholder="Enter meeting link" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label for="agenda">Agenda </label>
+          <input type="textarea" class="form-control" id="agenda" ng-model="c.meetingDetails.agenda"
+                 placeholder="Enter agenda " />
+        </div>
+      </div>
+
+
+
+
+
+      <div ng-click="c.handleSubmit()" class="add-meeting btn btn-primary">Submit</div>
+    </form>
+  </div>
+
+
+</div>]]></template>
+    </sp_widget>
+</record_update>

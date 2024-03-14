@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="d6d3ef412f700210931f3f96f699b612" label="meeting_reminder" max_length="40" name="x_1330382_meeting_meeting_reminder" type="collection">
+        <element label="Reminder time" max_length="40" name="reminder_time" type="glide_date_time"/>
+        <element label="Schedule Meeting Id" max_length="32" name="schedule_meeting_id" reference="x_1330382_meeting_scheduled_meeting" type="reference"/>
+        <index name="index">
+            <element name="schedule_meeting_id"/>
+        </index>
+    </element>
+</database>
