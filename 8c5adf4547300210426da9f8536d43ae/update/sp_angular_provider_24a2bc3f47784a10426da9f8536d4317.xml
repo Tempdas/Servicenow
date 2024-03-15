@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_angular_provider">
+    <sp_angular_provider action="INSERT_OR_UPDATE">
+        <name>MeetingDetailsProvider</name>
+        <script><![CDATA[function MeetingApiProvider($http) {
+
+    var baseUrl = "/api/x_1330383_meet_sch/meeting";
+
+    return {
+        createMeeting: createMeeting,
+        getMeeting: getMeeting,
+        updateMeeting: updateMeeting,
+        deleteMeeting: deleteMeeting,
+    };
+
+    function getMeeting(id) {
+        var url = baseUrl + "/"+id;
+        return _httpService(url, "get", null);
+    }
+
+    function createMeeting(meetingDetail) {
+        var url = baseUrl;
+        return _httpService(url, "post", meetingDetail);
+    }
+
+    function updateMeeting(id, meetingDetail) {
+        var url = baseUrl + "/" + id;
+        return _httpService(url, "put",meetingDetail );
+    }
+
+    function deleteMeeting(id) {
+        var url = baseUrl + "/" + id;
+        return _httpService(url, "delete", null);
+    }
+
+    function _httpService(url, method, payLoad) {
+        return $http({
+            method: method,
+            url: url,
+            data: payLoad
+        });
+    }
+
+}]]></script>
+        <sys_class_name>sp_angular_provider</sys_class_name>
+        <sys_created_by>vasu.beladiya</sys_created_by>
+        <sys_created_on>2024-03-14 06:37:57</sys_created_on>
+        <sys_id>24a2bc3f47784a10426da9f8536d4317</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>MeetingDetailsProvider</sys_name>
+        <sys_package display_value="Meet Schedule System " source="x_1330383_meet_sch">8c5adf4547300210426da9f8536d43ae</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meet Schedule System ">8c5adf4547300210426da9f8536d43ae</sys_scope>
+        <sys_update_name>sp_angular_provider_24a2bc3f47784a10426da9f8536d4317</sys_update_name>
+        <sys_updated_by>vasu.beladiya</sys_updated_by>
+        <sys_updated_on>2024-03-14 06:57:04</sys_updated_on>
+        <type>service</type>
+    </sp_angular_provider>
+</record_update>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_instance">
+    <sp_instance action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <glyph/>
+        <id/>
+        <order>1</order>
+        <roles/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="1">09c4ca2947784210426da9f8536d4337</sp_column>
+        <sp_widget display_value="create meeting form">8714426547784210426da9f8536d43de</sp_widget>
+        <sys_class_name>sp_instance</sys_class_name>
+        <sys_created_by>aryan.pandi</sys_created_by>
+        <sys_created_on>2024-03-07 12:45:54</sys_created_on>
+        <sys_id>f3c4ca2947784210426da9f8536d43bf</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Meet Schedule System " source="x_1330383_meet_sch">8c5adf4547300210426da9f8536d43ae</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meet Schedule System ">8c5adf4547300210426da9f8536d43ae</sys_scope>
+        <sys_update_name>sp_instance_f3c4ca2947784210426da9f8536d43bf</sys_update_name>
+        <sys_updated_by>aryan.pandi</sys_updated_by>
+        <sys_updated_on>2024-03-07 12:45:54</sys_updated_on>
+        <title/>
+        <url/>
+        <widget_parameters/>
+    </sp_instance>
+    <sys_translated_text action="delete_multiple" query="documentkey=f3c4ca2947784210426da9f8536d43bf"/>
+</record_update>

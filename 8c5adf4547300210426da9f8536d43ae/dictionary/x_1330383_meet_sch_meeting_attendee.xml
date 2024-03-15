@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="6c88ab8547700210426da9f8536d434f" label="Meeting Attendee" max_length="40" name="x_1330383_meet_sch_meeting_attendee" type="collection">
+        <element label="Meeting id" max_length="32" name="meeting_id" reference="x_1330383_meet_sch_scheduled_meeting" type="reference"/>
+        <element label="User id" max_length="32" name="user_id" reference="sys_user" type="reference"/>
+        <index name="index">
+            <element name="meeting_id"/>
+        </index>
+        <index name="index2">
+            <element name="user_id"/>
+        </index>
+    </element>
+</database>

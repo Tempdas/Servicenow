@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <http_method>DELETE</http_method>
+        <name>Delete Meeting Record</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+
+    // implement resource here
+	try {
+        var id = request.pathParams.id;
+        var result = new MeetingApiHandler().deleteRecord(id);
+        response.setBody({
+            result
+        });
+
+    } catch (e) {
+        if (e instanceof sn_ws_err.NotFoundError) {
+            response.setError(e);
+        } else {
+            var serverError = new sn_ws_err.ServiceError();
+            serverError.setStatus(500);
+            serverError.setMessage("internal server error");
+            serverError.setDetail("Error accure due to internal server failer");
+            response.setError(serverError);
+        }
+    }
+
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_1330383_meet_sch/meeting/{id}</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/{id}</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <requires_snc_internal_role>true</requires_snc_internal_role>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-03-06 12:51:10</sys_created_on>
+        <sys_id>1bab385147b40210426da9f8536d43cc</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>Delete Meeting Record</sys_name>
+        <sys_package display_value="Meet Schedule System " source="x_1330383_meet_sch">8c5adf4547300210426da9f8536d43ae</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meet Schedule System ">8c5adf4547300210426da9f8536d43ae</sys_scope>
+        <sys_update_name>sys_ws_operation_1bab385147b40210426da9f8536d43cc</sys_update_name>
+        <sys_updated_by>divy.cholera</sys_updated_by>
+        <sys_updated_on>2024-03-11 05:28:38</sys_updated_on>
+        <web_service_definition display_value="Meetings API">89c92f0947700210426da9f8536d432f</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

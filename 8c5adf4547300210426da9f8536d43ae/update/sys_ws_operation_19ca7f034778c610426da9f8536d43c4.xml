@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <http_method>GET</http_method>
+        <name>Get meeting attendees</name>
+        <operation_script><![CDATA[(function process( /*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+
+    // implement resource here
+    try {
+        var meeting_id = request.pathParams.meeting_id;
+        var result = new MeetingApiHandler().getAttendeesForMeeting(meeting_id);
+
+        response.setBody({
+            result
+        });
+
+    } catch (e) {
+        if (e instanceof sn_ws_err.NotFoundError) {
+            response.setError(e);
+        } else {
+            var serverError = new sn_ws_err.ServiceError();
+            serverError.setStatus(500);
+            serverError.setMessage("internal server error");
+            serverError.setDetail(e);
+            response.setError(serverError);
+        }
+    }
+
+
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_1330383_meet_sch/meeting</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <requires_snc_internal_role>true</requires_snc_internal_role>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>divy.cholera</sys_created_by>
+        <sys_created_on>2024-03-12 13:19:59</sys_created_on>
+        <sys_id>19ca7f034778c610426da9f8536d43c4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Get meeting attendees</sys_name>
+        <sys_package display_value="Meet Schedule System " source="x_1330383_meet_sch">8c5adf4547300210426da9f8536d43ae</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meet Schedule System ">8c5adf4547300210426da9f8536d43ae</sys_scope>
+        <sys_update_name>sys_ws_operation_19ca7f034778c610426da9f8536d43c4</sys_update_name>
+        <sys_updated_by>divy.cholera</sys_updated_by>
+        <sys_updated_on>2024-03-12 13:19:59</sys_updated_on>
+        <web_service_definition display_value="Meetings API">89c92f0947700210426da9f8536d432f</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

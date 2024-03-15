@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_column">
+    <sp_column action="INSERT_OR_UPDATE">
+        <class_name/>
+        <order>1</order>
+        <size>12</size>
+        <size_lg/>
+        <size_sm/>
+        <size_xs/>
+        <sp_row display_value="1">4dc4cae547784210426da9f8536d4345</sp_row>
+        <sys_class_name>sp_column</sys_class_name>
+        <sys_created_by>aryan.pandi</sys_created_by>
+        <sys_created_on>2024-03-07 12:45:44</sys_created_on>
+        <sys_id>09c4ca2947784210426da9f8536d4337</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>1</sys_name>
+        <sys_package display_value="Meet Schedule System " source="x_1330383_meet_sch">8c5adf4547300210426da9f8536d43ae</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meet Schedule System ">8c5adf4547300210426da9f8536d43ae</sys_scope>
+        <sys_update_name>sp_column_09c4ca2947784210426da9f8536d4337</sys_update_name>
+        <sys_updated_by>aryan.pandi</sys_updated_by>
+        <sys_updated_on>2024-03-07 12:45:44</sys_updated_on>
+    </sp_column>
+</record_update>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_portal">
+    <sp_portal action="INSERT_OR_UPDATE">
+        <css_variables>$brand-primary:#737fc6;
+$body-bg:#f5f5f5;
+$state-success-text:#1e4335;
+$sp-homepage-bg:#fff;
+$sp-navbar-divider-color:#8688c5;
+$text-color:#2e2e2e;
+$sp-logo-margin-y:.5rem;
+$navbar-inverse-link-hover-color:#ffffff;
+$panel-bg:#ffffff;
+$brand-success:#48C891;
+$navbar-inverse-bg:#444791;
+$brand-warning:#DFD139;
+$brand-danger:#C83C36;
+$sp-tagline-color:#ffffff;
+$navbar-inverse-link-color:#ffffff;
+$brand-info:#6ABECF;
+$link-color:#1F8476;
+$sp-logo-margin-x:1.5rem;
+$btn-default-bg:#fff;
+$text-muted:#666666;
+</css_variables>
+        <dark_theme/>
+        <default>false</default>
+        <enable_ais>false</enable_ais>
+        <enable_favorites>false</enable_favorites>
+        <hide_portal_name>false</hide_portal_name>
+        <homepage display_value="mssp_home_page">60e3238147700210426da9f8536d437f</homepage>
+        <icon>84b76bc147700210426da9f8536d43fc</icon>
+        <kb_knowledge_base/>
+        <kb_knowledge_page/>
+        <login_page display_value="mssp_home_page">60e3238147700210426da9f8536d437f</login_page>
+        <logo>28ae170d47300210426da9f8536d4343</logo>
+        <notfound_page/>
+        <quick_start_config/>
+        <sc_catalog/>
+        <sc_catalog_page/>
+        <sc_category_page/>
+        <search_application/>
+        <search_results_configuration/>
+        <sp_chat_queue/>
+        <sp_rectangle_menu display_value="Meeting schedule Menu">540fdf0d47300210426da9f8536d43c2</sp_rectangle_menu>
+        <sys_class_name>sp_portal</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-03-06 06:00:02</sys_created_on>
+        <sys_id>61fddfc947300210426da9f8536d43a2</sys_id>
+        <sys_mod_count>45</sys_mod_count>
+        <sys_name>Meeting Schedule System</sys_name>
+        <sys_package display_value="Meet Schedule System " source="x_1330383_meet_sch">8c5adf4547300210426da9f8536d43ae</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meet Schedule System ">8c5adf4547300210426da9f8536d43ae</sys_scope>
+        <sys_update_name>sp_portal_61fddfc947300210426da9f8536d43a2</sys_update_name>
+        <sys_updated_by>vasu.beladiya</sys_updated_by>
+        <sys_updated_on>2024-03-12 09:43:48</sys_updated_on>
+        <theme display_value="La Jolla">a7a6e78277002300a6e592718a10617a</theme>
+        <title>Meeting Schedule System</title>
+        <ts_index_group/>
+        <url_suffix>mssp</url_suffix>
+    </sp_portal>
+    <sys_translated_text action="delete_multiple" query="documentkey=61fddfc947300210426da9f8536d43a2"/>
+</record_update>

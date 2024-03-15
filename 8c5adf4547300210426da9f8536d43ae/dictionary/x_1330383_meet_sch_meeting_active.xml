@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="7474eb4147700210426da9f8536d43d2" label="meeting active " max_length="40" name="x_1330383_meet_sch_meeting_active" type="collection">
+        <element label="Agenda" max_length="40" name="agenda" type="string"/>
+        <element label="Meeting id" max_length="32" name="meeting_id" reference="x_1330383_meet_sch_scheduled_meeting" type="reference"/>
+        <element label="Title" max_length="40" name="title" type="string"/>
+        <index name="index">
+            <element name="meeting_id"/>
+        </index>
+    </element>
+</database>

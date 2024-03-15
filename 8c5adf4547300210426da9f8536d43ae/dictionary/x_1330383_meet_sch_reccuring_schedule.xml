@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="85d6a0ad47f04210426da9f8536d4300" label="reccuring schedule" max_length="40" name="x_1330383_meet_sch_reccuring_schedule" type="collection">
+        <element label="End Date" max_length="40" name="end_date" type="glide_date"/>
+        <element label="occurrence" max_length="40" name="occurrence" type="integer"/>
+        <element label="Recurrence Type" max_length="40" name="recurrence_type" type="string"/>
+        <element label="State Date" max_length="40" name="state_date" type="glide_date"/>
+    </element>
+</database>

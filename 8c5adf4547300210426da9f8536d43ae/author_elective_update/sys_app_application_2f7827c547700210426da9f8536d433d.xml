@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_application">
+    <sys_app_application action="DELETE">
+        <active>true</active>
+        <category display_value="Custom Applications">e0355b31ef303000a61d5a3615c0fb78</category>
+        <description/>
+        <device_type>browser</device_type>
+        <hint/>
+        <name>Meeting History</name>
+        <order>100</order>
+        <roles>x_1330383_meet_sch.meeting_history_user</roles>
+        <sys_class_name>sys_app_application</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-03-06 06:44:29</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>2f7827c547700210426da9f8536d433d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Meeting History</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Meet Schedule System " source="x_1330383_meet_sch">8c5adf4547300210426da9f8536d43ae</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Meet Schedule System ">8c5adf4547300210426da9f8536d43ae</sys_scope>
+        <sys_update_name>sys_app_application_2f7827c547700210426da9f8536d433d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-03-06 06:44:29</sys_updated_on>
+        <title>Meeting History</title>
+        <view_name/>
+    </sys_app_application>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Meet Schedule System ">8c5adf4547300210426da9f8536d43ae</application>
+        <file_path/>
+        <instance_id>ee6bede1db192ddc68c2c597059619db</instance_id>
+        <instance_name>dev157399</instance_name>
+        <name>sys_app_application_2f7827c547700210426da9f8536d433d</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_application"><sys_app_application action="INSERT_OR_UPDATE"><active>true</active><category display_value="Custom Applications">e0355b31ef303000a61d5a3615c0fb78</category><description/><device_type>browser</device_type><hint/><name>Meeting History</name><order>100</order><roles>x_1330383_meet_sch.meeting_history_user</roles><sys_class_name>sys_app_application</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2024-03-06 06:44:29</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>2f7827c547700210426da9f8536d433d</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Meeting History</sys_name><sys_overrides/><sys_package display_value="Meet Schedule System " source="x_1330383_meet_sch">8c5adf4547300210426da9f8536d43ae</sys_package><sys_policy/><sys_scope display_value="Meet Schedule System ">8c5adf4547300210426da9f8536d43ae</sys_scope><sys_update_name>sys_app_application_2f7827c547700210426da9f8536d433d</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2024-03-06 06:44:29</sys_updated_on><title>Meeting History</title><view_name/></sys_app_application></record_update>]]></payload>
+        <payload_hash>124677772</payload_hash>
+        <record_name>Meeting History</record_name>
+        <reverted_from/>
+        <source>005adf4547300210426da9f8536d43b1</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-03-06 06:44:29</sys_created_on>
+        <sys_id>a37827c547700210426da9f8536d4341</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18e1281a1690000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-03-06 06:44:29</sys_updated_on>
+        <type>Application Menu</type>
+        <update_guid>e77827c55a700210ad5f8bc87f70e540</update_guid>
+        <update_guid_history>e77827c55a700210ad5f8bc87f70e540:124677772</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Meeting History">1139630947700210426da9f8536d43ed</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-03-06 06:47:36</sys_created_on>
+        <sys_db_object display_value="" name="sys_app_application">sys_app_application</sys_db_object>
+        <sys_id>22acf513207e4d569287a9c7f3c64724</sys_id>
+        <sys_metadata>2f7827c547700210426da9f8536d433d</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Meeting History</sys_name>
+        <sys_package display_value="Meet Schedule System " source="x_1330383_meet_sch">8c5adf4547300210426da9f8536d43ae</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Meet Schedule System ">8c5adf4547300210426da9f8536d43ae</sys_scope>
+        <sys_scope_delete display_value="">804d6c71a27b449c94513ac21dade790</sys_scope_delete>
+        <sys_update_name>sys_app_application_2f7827c547700210426da9f8536d433d</sys_update_name>
+        <sys_update_version display_value="sys_app_application_2f7827c547700210426da9f8536d433d">a37827c547700210426da9f8536d4341</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-03-06 06:47:36</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
